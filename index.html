@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+			background: url(https://preview.redd.it/d8ss5d4b2t261.png?auto=webp&s=205328a61517be8f0fd81ecf6e8eb6caa752bc08)center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .container {
+            max-width: 500px;
+			margin: 150px  auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+            background-color: rgb(40, 56, 232);
+            border-radius: 0 40px 20px 40px;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        
+        input[type="text"] {
+            width: 400px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
+        #qrcode {
+            margin-top: 20px;
+            margin-left: 120px;
+        }
+        
+        #download-btn {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        @media screen and (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color:white">QR Code Generator</h1>
+        <input type="text" id="input-text" placeholder="Enter text or URL">
+        <button id="generate-btn">Generate QR Code</button>
+        <div id="qrcode"></div>
+        <a href="#" id="download-btn" download style="color: white;">Download QR Code</a>
+    </div>
+
+    <script src="qrcode.min.js"></script>
+    <script>
+        const generateBtn = document.getElementById('generate-btn');
+        const inputText = document.getElementById('input-text');
+        const qrcodeDiv = document.getElementById('qrcode');
+        const downloadBtn = document.getElementById('download-btn');
+
+        generateBtn.addEventListener('click', generateQRCode);
+        inputText.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                generateQRCode();
+            }
+        });
+
+        function generateQRCode() {
+            const text = inputText.value.trim();
+
+            if (text !== '') {
+                qrcodeDiv.innerHTML = '';
+
+                const qrcode = new QRCode(qrcodeDiv, {
+                    text: text,
+                    width: 256,
+                    height: 256
+                });
+
+                downloadBtn.href = qrcodeDiv.firstChild.toDataURL();
+                downloadBtn.style.display = 'inline-block';
+            }
+        }
+    </script>
+</body>
+</html>
